@@ -1,5 +1,13 @@
 #include "Ligne.h"
 
+int Ligne::get_h() const {
+    return x;
+}
+
+int Ligne::get_l() const {
+    return y;
+}
+
 void Ligne::change_etat(){
     x=0;
     y=0;
