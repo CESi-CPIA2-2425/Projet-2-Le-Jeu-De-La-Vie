@@ -4,6 +4,12 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+
+#include "Fichier.h"
+#include "Grille.h"
+#include "Ligne.h"
+
+using namespace std;
 //////////////////////////////////////////Test unitaires////////////////////////////////////////////////////////////////
 
 
@@ -19,9 +25,10 @@ TEST(AdditionTest, HandlesPositiveNumbers) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
-const int cellSize = 20;
-const int gridWidth = 8;
-const int gridHeight = 8;
+//////////////////////////////////////////Grille aléatoire//////////////////////////////////////////////////////////////.
+const int cellSize = 20;  //taille des cellules
+const int gridWidth = 8;  //nombre de cellules en largeur (valeur présentes dans la première ligen du fichier texte)
+const int gridHeight = 8;  //nombre de cellules en hauteur (valeur présentes dans la première ligen du fichier texte)
 
 std::vector<std::vector<int>> grid(gridWidth, std::vector<int>(gridHeight));
 
@@ -33,7 +40,8 @@ void initializeGrid() {
         }
     }
 };
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
+// Création des cellules sur une fenètre pop-up
 void renderGrid(sf::RenderWindow& window) {
     int x, y;
 
@@ -49,8 +57,9 @@ void renderGrid(sf::RenderWindow& window) {
     }
     window.display();
 }
+// Ouverture puis fermeture de la fenètre pop-up au bout de 3seconde
 void runSFML() {
-    std::cout << "Démarrage de la fenêtre SFML...\n"<<std::endl;
+    cout << "Démarrage de la fenêtre SFML...\n" << endl;
 
     sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
     initializeGrid();
@@ -66,14 +75,25 @@ void runSFML() {
         renderGrid(window);
 
         // Ferme la fenêtre après 10 secondes
-        if (clock.getElapsedTime().asSeconds() > 10) {
+        if (clock.getElapsedTime().asSeconds() > 3) {
             window.close();
         }
 
         sf::sleep(sf::milliseconds(100));
     }
 
-    std::cout << "Fenêtre SFML fermée.\n"<<std::endl;
+    cout<<"Fenêtre SFML fermée.\n"<<endl;
+}
+void runConsole() {
+    cout<<"Démarrage du mode console ..."<<endl;
+
+    for (size_t i = 0; i < vec.size(); ++i) {
+        for (int val : vec[i]) {
+            std::cout << val << " ";
+        }
+        std::cout << "\n";
+
+    cout<<"Mode console terminé.\n"<<endl;
 }
 ////////////////////////////version avec un grille personnalisée ///////////////////////////////////////////////////////
 //void initializeGridPreset() {
@@ -93,29 +113,33 @@ void runSFML() {
 //    }
 //}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
-int main(int argc, char **argv) {
-    sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
-    initializeGrid();
-
-    sf::Clock clock;
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
+int main(int argc ,char **argv ){
+    cout << "Combien d'itérations voulez vous réaliser ? \t" <<endl;
+    int iteration;
+    cin >> iteration;
+    cout << "Comment voulez vous obtenir le résultat ? \t 1.mode console \t 2.mode graphique" <<endl;
+    int mode;
+    cin >> mode;
+    Fichier :: lecture();
+    Fichier :: vecteur ();
+    while (iteration > 0) {
+        if (mode = 1) {
+            Ligne::change_etat();
+            runConsole();
+            //mode console affichage des vecteurs
         }
-
-        renderGrid(window);
-
-        // Ferme la fenêtre après 10 secondes
-        if (clock.getElapsedTime().asSeconds() > 10) {
-            window.close();
+        if (mode=2) {
+            Ligne::change_etat();
+            runSFML();
         }
-
-        sf::sleep(sf::milliseconds(100));
+        else {
+            cout << "Mode invalide. Veuillez entrer 1 (console) ou 2 (graphique)." << endl;
+        }
+        iteration = iteration - 1;
     }
 
-    //////////////////////////////////////////Test unitaires////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////Test unitaires////////////////////////////////////////////////////////////
 
     std::cout << "Initialisation des tests unitaires...\n"<<std::endl;
     ::testing::InitGoogleTest(&argc, argv);
@@ -132,6 +156,6 @@ int main(int argc, char **argv) {
     std::cout << "Résultat des tests : " << (testResult == 0 ? "Tous validés !" : "Échec.") << "\n"<<std::endl;
 
     return testResult;
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 
 }
