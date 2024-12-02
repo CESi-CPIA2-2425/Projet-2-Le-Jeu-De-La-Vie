@@ -6,10 +6,14 @@
 #include <cstdlib>
 
 #include "Fichier.h"
-#include "Grille.h"
 #include "Ligne.h"
 
 using namespace std;
+
+Fichier fichier;
+//Grille grille;
+Ligne ligne;
+
 //////////////////////////////////////////Test unitaires////////////////////////////////////////////////////////////////
 
 
@@ -84,17 +88,19 @@ void runSFML() {
 
     cout<<"Fenêtre SFML fermée.\n"<<endl;
 }
-void runConsole() {
-    cout<<"Démarrage du mode console ..."<<endl;
+/*void runConsole() {
+    cout << "Démarrage du mode console ..." << endl;
 
-    for (size_t i = 0; i < vec.size(); ++i) {
-        for (int val : vec[i]) {
-            std::cout << val << " ";
+    // Supposons que `Fichier::vec` soit une propriété accessible
+    for (const auto& subVec : fichier.vecteur) { // Parcours de chaque sous-vecteur
+        for (char val : subVec) {
+            cout << val; // Afficher chaque caractère
         }
-        std::cout << "\n";
+        cout << "\n" <<endl; // Nouvelle ligne pour séparer les vecteurs
+    }
 
-    cout<<"Mode console terminé.\n"<<endl;
-}
+    cout << "Mode console terminé.\n" << endl;
+}*/
 ////////////////////////////version avec un grille personnalisée ///////////////////////////////////////////////////////
 //void initializeGridPreset() {
 //    // Exemple : grille prédéfinie
@@ -120,16 +126,16 @@ int main(int argc ,char **argv ){
     cout << "Comment voulez vous obtenir le résultat ? \t 1.mode console \t 2.mode graphique" <<endl;
     int mode;
     cin >> mode;
-    Fichier :: lecture();
-    Fichier :: vecteur ();
+    //fichier.lecture();
+    //fichier.vecteur();
     while (iteration > 0) {
-        if (mode = 1) {
-            Ligne::change_etat();
-            runConsole();
+        if (mode==1) {
+            //ligne.change_etat();
+            //runConsole();
             //mode console affichage des vecteurs
         }
-        if (mode=2) {
-            Ligne::change_etat();
+        if (mode==2) {
+            //ligne.change_etat();
             runSFML();
         }
         else {

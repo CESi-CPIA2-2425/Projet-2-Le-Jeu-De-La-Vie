@@ -17,13 +17,7 @@ link_directories(${SFML_LIBRARY_DIR})
 file(GLOB_RECURSE SRCS "Projet_2.cpp")
 
 # Ajouter l'exécutable principal
-add_executable(SFMLTest ${SRCS} Projet_2.cpp
-        Grille.cpp
-        Grille.h
-        Ligne.cpp
-        Ligne.h
-        Fichier.cpp
-        Fichier.h)
+add_executable(SFMLTest ${SRCS} Projet_2.cpp)
 
 
 
@@ -40,12 +34,9 @@ include_directories(${GTEST_DIR}/googlemock/include)
 
 # Ajouter un exécutable pour les tests unitaires
 add_executable(UnitTests Projet_2.cpp
-        Grille.cpp
-        Grille.h
+        Projet_2.cpp
         Ligne.cpp
-        Ligne.h
-        Fichier.cpp
-        Fichier.h)
+        Grille.cpp)
 
 # Lier les bibliothèques SFML
 target_link_libraries(SFMLTest sfml-graphics sfml-window sfml-audio sfml-network sfml-system)

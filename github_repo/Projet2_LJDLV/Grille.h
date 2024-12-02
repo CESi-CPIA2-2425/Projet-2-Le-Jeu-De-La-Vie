@@ -5,15 +5,20 @@
 
 class Grille {
 
-private :
+public:
     int h;
     int l;
+    int x;
+    int y;
 
-public:
-    Grille(int, int){}  //constructeur
-    void get_h();
-    void get_l();
+    Grille(){}  //constructeur
+    virtual ~Grille() = default;  //destructeur
+    int get_h();
+    int get_l();
     virtual void change_etat()=0;  //méthode abstraite
+    int get_h() const;
+
+    int get_l() const;
 };
 
 #endif //GRILLE_H
