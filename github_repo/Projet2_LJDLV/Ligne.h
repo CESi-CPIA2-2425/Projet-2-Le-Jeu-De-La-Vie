@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Grille.h"
+#include "Fichier.h"
 
 using namespace std;
 
@@ -10,7 +11,8 @@ class Ligne : public Grille {
 public:
     int x; //nécessaire dans le changement d'état
     int y; //nécessaire dans le changement d'état
-    vector<vector<int>> vec;
+    const int gridWidth, gridHeight;
+    vector<vector<int>> jeu;
 
     Ligne() {}  //constructeur
     int get_h() const;

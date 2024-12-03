@@ -34,7 +34,7 @@ include_directories(${GTEST_DIR}/googlemock/include)
 
 # Ajouter un exécutable pour les tests unitaires
 add_executable(UnitTests Projet_2.cpp
-        Projet_2.cpp
+        Fichier.cpp
         Ligne.cpp
         Grille.cpp)
 

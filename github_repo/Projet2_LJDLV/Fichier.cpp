@@ -4,14 +4,16 @@
 #include <iostream>//entrée/sortie
 #include <fstream>//fichier
 
+#include <sstream>   // Pour std::istringstream
+#include <vector>    // Pour std::vector
+#include <string>    // Pour std::string
 
 
 using namespace std;
 
 string Fichier::lecture() {
-
-
-    string const nomFichier("C:/Users/Admin/Documents/CESI CPI A2/PROJET 2/projet 2 txt.txt");//entre guillement le chemin du fichier, monFlux est le nom du contenue du fichier
+    cout<<"Fichier";
+    string const nomFichier("C:/Users/thais/Documents Local/CPI A2/Projet 2/Livrable/Projet-2/Fichier.txt");//entre guillement le chemin du fichier, monFlux est le nom du contenue du fichier
     ifstream monFlux(nomFichier.c_str());
 
     while (getline(monFlux, contenu)) {
@@ -32,26 +34,32 @@ string Fichier::lecture() {
 
 }
 void Fichier::vecteur() {
-    int nb_vecteur = txt[0];
-    for (int i = 0; i < nb_vecteur; ++i) {
-        // Créer un vecteur
-        vector<vector<int>> vec;
+    std::cout << "Début de la transformation en vecteur..." << std::endl;
 
+    this->vec.clear(); // Réinitialiser `vec`
 
-        bool tabulationTrouvee = false;
-        for (char c : full) {
-            if (c == '\t') {
-                tabulationTrouvee = true; // Une fois que la tabulation est rencontrée, passe au deuxième vecteur
-                continue;
-            }
+    std::istringstream stream(full); // Créer un flux à partir de `full`
+    std::string ligne;
 
-            if (!tabulationTrouvee) {
-                int cellule = c-'0';
-                vec[i].push_back(cellule);
-            }
-            else {
-                i=i+1;
-            }
+    while (std::getline(stream, ligne)) {
+        if (ligne.empty()) {
+            continue; // Ignorer les lignes vides
         }
+
+        std::istringstream ligneStream(ligne); // Flux pour traiter chaque ligne
+        std::vector<int> sousVecteur;
+        int valeur;
+
+        while (ligneStream >> valeur) { // Extraire chaque valeur entière de la ligne
+            sousVecteur.push_back(valeur);
+            std::cout << "Ajouté : " << valeur << " à sousVecteur[" << sousVecteur.size() - 1 << "]" << std::endl;
+        }
+
+        vec.push_back(sousVecteur); // Ajouter le sous-vecteur à `vec`
+        std::cout << "Nouvelle ligne ajoutée à vec, taille actuelle : " << vec.size() << std::endl;
     }
+
+    std::cout << "Transformation en vecteur terminée. Taille totale de vec : " << vec.size() << std::endl;
 }
+
+

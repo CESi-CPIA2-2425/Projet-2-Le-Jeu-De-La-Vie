@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <gtest/gtest.h>
 
+#include <iostream>
 #include <vector>
 #include <ctime>
 #include <cstdlib>
@@ -13,6 +14,11 @@ using namespace std;
 Fichier fichier;
 //Grille grille;
 Ligne ligne;
+
+
+
+vector<vector<int>>jeu;
+
 
 //////////////////////////////////////////Test unitaires////////////////////////////////////////////////////////////////
 
@@ -30,12 +36,8 @@ TEST(AdditionTest, HandlesPositiveNumbers) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 //////////////////////////////////////////Grille aléatoire//////////////////////////////////////////////////////////////.
-const int cellSize = 20;  //taille des cellules
-const int gridWidth = 8;  //nombre de cellules en largeur (valeur présentes dans la première ligen du fichier texte)
-const int gridHeight = 8;  //nombre de cellules en hauteur (valeur présentes dans la première ligen du fichier texte)
 
-std::vector<std::vector<int>> grid(gridWidth, std::vector<int>(gridHeight));
-
+/*
 void initializeGrid() {
     std::srand(std::time(0));
     for (int x = 0; x < gridWidth; ++x) {
@@ -43,8 +45,28 @@ void initializeGrid() {
             grid[x][y] = std::rand() % 2;  // Randomly initialize cells as alive or dead
         }
     }
-};
+};*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
+const int cellSize = 50;  //taille des cellules
+const int gridWidth = 10;
+//nombre de cellules en largeur (valeur présentes dans la première ligen du fichier texte)
+const int gridHeight = 10;
+//nombre de cellules en hauteur (valeur présentes dans la première ligen du fichier texte)
+
+std::vector<std::vector<int> > grid(gridWidth, std::vector<int>(gridHeight));
+
+void initializeGridCustom() {
+
+    std::cout << "Entrez les valeurs pour la grille (" << gridHeight << "x" << gridWidth << ") :\n";
+    for (int y = 0; y < gridHeight; ++y) {
+        std::cout << "Ligne " << y + 1 << " (entrez " << gridWidth << " valeurs séparées par des espaces) : ";
+        for (int x = 0; x < gridWidth; ++x) {
+            std::cin >> grid[y][x]; // Lire chaque cellule
+        }
+    }
+}
+
+
 // Création des cellules sur une fenètre pop-up
 void renderGrid(sf::RenderWindow& window) {
     int x, y;
@@ -53,7 +75,7 @@ void renderGrid(sf::RenderWindow& window) {
     sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
     for (x = 0; x < gridWidth; ++x) {
         for (y = 0; y < gridHeight; ++y) {
-            if (grid[x][y] == 1) {
+            if (fichier.vec[x][y] == 1) {
                 cell.setPosition(x * cellSize, y * cellSize);
                 window.draw(cell);
             }
@@ -66,7 +88,7 @@ void runSFML() {
     cout << "Démarrage de la fenêtre SFML...\n" << endl;
 
     sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
-    initializeGrid();
+    initializeGridCustom();
 
     sf::Clock clock;
     while (window.isOpen()) {
@@ -105,7 +127,7 @@ void runSFML() {
 //void initializeGridPreset() {
 //    // Exemple : grille prédéfinie
 //    grid[0] = {1, 0, 0, 0, 1, 0, 0, 0};
-////    grid[1] = {0, 0, 0, 0, 1, 1, 1, 0};
+//    grid[1] = {0, 0, 0, 0, 1, 1, 1, 0};
 //}
 //
 //// Fonction pour permettre à l'utilisateur de saisir la grille
@@ -122,20 +144,32 @@ void runSFML() {
 int main(int argc ,char **argv ){
     cout << "Combien d'itérations voulez vous réaliser ? \t" <<endl;
     int iteration;
-    cin >> iteration;
+    iteration = 5;
+    cout<<iteration<<endl;
+    //cin >> iteration;
     cout << "Comment voulez vous obtenir le résultat ? \t 1.mode console \t 2.mode graphique" <<endl;
     int mode;
-    cin >> mode;
-    //fichier.lecture();
-    //fichier.vecteur();
+    mode=2;
+    cout<<mode<<endl;
+    //cin >> mode;
+    string message = fichier.lecture();
+    fichier.vecteur();
+    cout<<"end vecteur"<<endl;
+    //const int cellSize = 50;  //taille des cellules
+    jeu = fichier.vec;
+    const int gridWidth = fichier.vec[0][0];  //nombre de cellules en largeur (valeur présentes dans la première ligen du fichier texte)
+    const int gridHeight = fichier.vec[0][1];  //nombre de cellules en hauteur (valeur présentes dans la première ligen du fichier texte)
+    cout<<gridHeight<<endl;
+    vector<std::vector<int>> grid(gridWidth, vector<int>(gridHeight));
     while (iteration > 0) {
         if (mode==1) {
-            //ligne.change_etat();
+            ligne.change_etat();
             //runConsole();
             //mode console affichage des vecteurs
         }
         if (mode==2) {
-            //ligne.change_etat();
+            cout<<"mode2"<<endl;
+            ligne.change_etat();
             runSFML();
         }
         else {
@@ -162,6 +196,7 @@ int main(int argc ,char **argv ){
     std::cout << "Résultat des tests : " << (testResult == 0 ? "Tous validés !" : "Échec.") << "\n"<<std::endl;
 
     return testResult;
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 
 }
