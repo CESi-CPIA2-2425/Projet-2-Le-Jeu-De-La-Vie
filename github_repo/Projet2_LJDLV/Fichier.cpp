@@ -36,24 +36,21 @@ string Fichier::lecture() {
     return full;
 
 }
-vector<string> Fichier::vecteur(string txt) {
-    vector<string> liste_final;
-    int nb_vecteur = txt[0];
-    int len_vecteur = txt[2];
 
-    std::vector<std::vector<string>> vectors;
+vector<string> Fichier::vecteur(const string& txt) {
 
-    for (int i = 0; i < nb_vecteur; ++i) {
-        // Créer un vecteur
-        std::vector<string> vec;
-        for (int j = 0; j < len_vecteur; ++j) {
-            vectors.push_back(vector<string>());
-        }
-        liste_final.push_back(vectors);
+    vector<string> liste;
+    stringstream ss(txt);
+    string ligne;
+
+    while (std::getline(ss,ligne)) {
+        liste.push_back(ligne);
     }
-    return liste_final;
-}
 
+
+
+    return liste;
+}
 
 
 
