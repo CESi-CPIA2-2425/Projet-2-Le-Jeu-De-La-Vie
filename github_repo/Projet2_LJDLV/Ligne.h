@@ -7,18 +7,27 @@
 
 using namespace std;
 
-class Ligne : public Grille {
-public:
-    int x; //nécessaire dans le changement d'état
-    int y; //nécessaire dans le changement d'état
-    const int gridWidth, gridHeight;
-    vector<vector<int>> jeu;
+class Ligne {
 
-    Ligne() {}  //constructeur
+private:
+    std::vector<std::string>grille;
+    int cologne ;
+    int ligne;
+    int x;
+    int y;
+public:
+
+    Ligne(std::vector<std::string>grille);// consturcteur temp
+    int CompteCell(int x,int y,std::vector<std::string> grille);
+    void Generation();
+    void AfficheGrille();
     int get_h() const;
     int get_l()const;
-    void change_etat()override;  //méthode abstraite
+
+
 };
+
+
 
 
 

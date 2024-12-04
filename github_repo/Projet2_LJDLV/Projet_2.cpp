@@ -13,7 +13,7 @@ using namespace std;
 
 Fichier fichier;
 //Grille grille;
-Ligne ligne;
+//Ligne ligne;
 
 
 
@@ -157,19 +157,44 @@ int main(int argc ,char **argv ){
     cout<<"end vecteur"<<endl;
     //const int cellSize = 50;  //taille des cellules
     jeu = fichier.vec;
-    const int gridWidth = fichier.vec[0][0];  //nombre de cellules en largeur (valeur présentes dans la première ligen du fichier texte)
-    const int gridHeight = fichier.vec[0][1];  //nombre de cellules en hauteur (valeur présentes dans la première ligen du fichier texte)
+    int gridWidth = fichier.vec[0][0];  //nombre de cellules en largeur (valeur présentes dans la première ligen du fichier texte)
+    int gridHeight = fichier.vec[0][1];  //nombre de cellules en hauteur (valeur présentes dans la première ligen du fichier texte)
     cout<<gridHeight<<endl;
     vector<std::vector<int>> grid(gridWidth, vector<int>(gridHeight));
     while (iteration > 0) {
         if (mode==1) {
-            ligne.change_etat();
-            //runConsole();
-            //mode console affichage des vecteurs
+                string txt = fichier.lecture();
+                vector<string> liste = fichier.vecteur();
+
+                // Affichage des éléments du vecteur
+                for (const auto& ligne : liste) {
+                    std::cout << ligne << std::endl;
+                }
+
+                cout <<"--------------------------------" << endl;
+                liste.erase(liste.begin());
+
+                for (const auto& ligne : liste) {
+                    std::cout << ligne << std::endl;
+                }
+
+                //penser a retirer les dimenstion de la grille
+
+                Ligne   jeu(liste);
+
+                int tst = jeu.CompteCell(1,1,liste);
+                cout << tst << "ici" << endl;
+
+                for (int i = 0; i < 5; ++i) {
+                    // Simul 5 gen
+                    std::cout << "GEN " << i + 1 << " :\n";
+                    jeu.Generation();
+                    jeu.AfficheGrille();
+                }
         }
         if (mode==2) {
             cout<<"mode2"<<endl;
-            ligne.change_etat();
+            //ligne.change_etat();
             runSFML();
         }
         else {

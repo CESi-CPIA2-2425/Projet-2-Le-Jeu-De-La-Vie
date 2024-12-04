@@ -15,32 +15,46 @@ int Ligne::get_l() const {
     return y;
 }
 
-void Ligne::change_etat(){
-    cout<<"etat"<<endl;
-    x=0;
-    y=0;
-    int i = 0;
-    while (i<=gridWidth*gridHeight) {
-        int environ = 0 ;
-        cout<<jeu[x][y]<<endl;
-        environ = jeu[y-1%gridHeight][x-1%gridHeight] + jeu[y-1%gridHeight][x%gridHeight] + jeu[y-1%gridHeight][x+1%h] + jeu[y%h][x-1%h] + jeu[y%h][x+1%h] + jeu[y+1%h][x-1%h] + jeu[y+1%h][x%h] + jeu[y+1%h][x+1%h];
-        cout<<"environ"<<endl;
-        if(jeu[y][x]==0) {
-            if(environ >=3) {
-                jeu[y][x] = 1;
-            }
+Ligne::Ligne( std::vector<std::string> grille) : grille(grille), ligne(grille.size()), cologne(grille[0].size()) {} //constructeur
 
-        }
-        if(jeu[y][x]==1) {
-            if(environ <2 && environ >=3) {
-                jeu[y][x]=0;
+int Ligne::CompteCell(int x,int y,std::vector<std::string> grille) {
+    int compteur = 0;
+
+
+    for(int i=-1; i<=1; i++) {
+        for(int j=-1; j<=1; j++) {
+            if(i == 0 && j == 0) continue;
+            int nx = x+i;
+            int ny = y+j;
+            if (nx >= 0 && nx<ligne && ny>= 0 && ny < cologne) {
+                compteur += grille[nx][ny] =='1';
             }
-        }
-        i=i+1;
-        x=x+1;
-        if(x>l-1) {
-            x=0;
-            y=y+1;
         }
     }
+    return compteur;
+}
+
+// Affiche la grille actuelle
+void Ligne::AfficheGrille() {
+    for (const auto& l : grille) {
+        std::cout << l << '\n';
+    }
+    std::cout << '\n';
+}
+
+void Ligne::Generation() {
+    std::vector<std::string> nvlle = grille;
+
+    for (int i = 0; i < ligne; ++i) {
+        for (int j = 0; j < cologne; ++j) {
+            int voisin = CompteCell(i, j,grille);
+            if (grille[i][j] == '1') {
+                nvlle[i][j] =(voisin == 2 || voisin ==  3) ? '1' : '0';
+            }else {
+                nvlle[i][j] = (voisin ==3) ? '1' : '0';
+            }
+        }
+    }
+    grille = nvlle;
+
 }
