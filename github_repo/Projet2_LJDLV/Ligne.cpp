@@ -15,7 +15,7 @@ int Ligne::get_l() const {
     return y;
 }
 
-Ligne::Ligne( std::vector<std::string> grille) : grille(grille), ligne(grille.size()), cologne(grille[0].size()) {} //constructeur
+Ligne::Ligne(std::vector<std::string> grille): grille(grille), cologne(grille[0].size()), ligne(grille.size()), x(0), y(0), gridWidth(0), gridHeight(0) {}//constructeur
 
 int Ligne::CompteCell(int x,int y,std::vector<std::string> grille) {
     int compteur = 0;
