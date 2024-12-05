@@ -19,9 +19,6 @@ file(GLOB_RECURSE SRCS "Projet_2.cpp")
 # Ajouter l'exécutable principal
 add_executable(SFMLTest ${SRCS} Projet_2.cpp)
 
-
-
-
 # Chemin vers le répertoire Google Test
 set(GTEST_DIR "C:/Users/thais/Documents Local/CPI A2/Projet 2/Livrable/Projet-2/cmake-build-debug/googletest/googletest-main")
 

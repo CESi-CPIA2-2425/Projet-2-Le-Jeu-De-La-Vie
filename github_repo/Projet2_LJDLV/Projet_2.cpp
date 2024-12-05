@@ -1,23 +1,25 @@
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
+////////////////////////////////////////////// LE JEU DE LA VIE ////////////////////////////////////////////////////////.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 ////////////////////Inclusion des fichier, bibliothèques, namespace et instances de classes/////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
+
+//Bibliothèques externes (SFML -> Rendu graphique, GTEST -> Tests unitaires)
 #include <SFML/Graphics.hpp>
 #include <gtest/gtest.h>
-
+//Bibliothèque internes (entrées/sorties, gestiosn de fichiers, vecteurs...)
 #include <iostream>
 #include <vector>
 #include <ctime>
 #include <stdio.h>
 #include <string>
-
+//Inclusions des classes
 #include "Fichier.h"
 #include "Ligne.h"
-
+//Utilisation de cette notation pour les cout,endl, vecteurs ...
 using namespace std;
-
-Fichier fichier;  //instance de la classe Fichier dans le main
+//instance de la classe Fichier dans le main
+Fichier fichier;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 ////////////////////////////Initialisation des valeurs (par défaut)/////////////////////////////////////////////////////
@@ -27,7 +29,7 @@ const int cellSize = 50;  //taille des cellules
 const int gridWidth = 10;  //nombre de cellules en largeur (valeur présentes dans la première ligen du fichier texte)
 const int gridHeight = 10;  //nombre de cellules en hauteur (valeur présentes dans la première ligen du fichier texte)
 
-std::vector<std::vector<int> > grid(gridWidth, std::vector<int>(gridHeight));
+vector<vector<int> > grid(gridWidth, vector<int>(gridHeight));
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 ////////////////////////////Appel de l'ouverture du fichier/////////////////////////////////////////////////////////////
@@ -42,10 +44,10 @@ Ligne jeu(liste);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 
 // Fonction pour convertir la grille fournie par le méthode fichier.vecteur
-std::vector<std::vector<int>> convertirGrille(const std::vector<std::string>& grille) {
-    std::vector<std::vector<int>> grid;
+vector<vector<int>> convertirGrille(const vector<string>& grille) {
+    vector<vector<int>> grid;
     for (const auto& ligne : grille) {
-        std::vector<int> row;
+        vector<int> row;
         for (char c : ligne) {
             if (c == '0' || c == '1') {
                 row.push_back(c - '0');
@@ -57,25 +59,20 @@ std::vector<std::vector<int>> convertirGrille(const std::vector<std::string>& gr
 }
 
 // Fonction pour afficher la grille avec SFML
-void afficherAvecSFML(const std::vector<std::vector<int>>& grid, int cellSize) {
+void afficherAvecSFML(const vector<vector<int>>& grid, int cellSize) {
     if (grid.empty()) return; // Vérifier si la grille est vide
-
-    // Créer une fenêtre SFML
-    sf::RenderWindow window(sf::VideoMode(grid[0].size() * cellSize, grid.size() * cellSize), "Game of Life");
+    sf::RenderWindow window(sf::VideoMode(grid[0].size() * cellSize, grid.size() * cellSize), "Game of Life");// Créer une fenêtre SFML
     sf::Clock clock;
-    while (window.isOpen()) {
+    while (window.isOpen()) {// Dessiner la grille
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-            // Ferme la fenêtre après n secondes
-            if (clock.getElapsedTime().asSeconds() > 2) {
+            if (clock.getElapsedTime().asSeconds() > 2) {// Ferme la fenêtre après n secondes
                 window.close();
             }
         }
-
-        // Dessiner la grille
         window.clear();
         sf::RectangleShape cell(sf::Vector2f(cellSize - 1, cellSize - 1));
         for (size_t y = 0; y < grid.size(); ++y) {
@@ -88,25 +85,26 @@ void afficherAvecSFML(const std::vector<std::vector<int>>& grid, int cellSize) {
             }
         }
         window.display();
-
         sf::sleep(sf::milliseconds(500)); // Attente entre les affichages
     }
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 //////////////////////////////////////////Test unitaires////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
+
 // Test de la fonction `Fichier::lecture`
 TEST(FichierTest, LectureFichier) {
     Fichier fichier;
-    std::string contenu = fichier.lecture();
+    string contenu = fichier.lecture();
     EXPECT_FALSE(contenu.empty()) << "Le contenu du fichier ne doit pas être vide.";
 }
 
 // Test de la fonction `Fichier::vecteur`
 TEST(FichierTest, ConversionVecteur) {
     Fichier fichier;
-    std::string contenu = "5 5\n10101\n01010\n10101\n01010\n";
-    std::vector<std::string> vecteur = fichier.vecteur(contenu);
+    string contenu = "5 5\n10101\n01010\n10101\n01010\n";
+    vector<string> vecteur = fichier.vecteur(contenu);
 
     EXPECT_EQ(vecteur.size(), 5) << "Le vecteur doit contenir 5 lignes.";
     EXPECT_EQ(vecteur[1], "10101") << "La deuxième ligne doit être '10101'.";
@@ -114,7 +112,7 @@ TEST(FichierTest, ConversionVecteur) {
 
 // Test du constructeur de la classe `Ligne`(pas  le constucteur par défaut)
 TEST(LigneTest, ConstructionLigne) {
-    std::vector<std::string> grille = {"10101", "01010", "10101", "01010"};
+    vector<string> grille = {"10101", "01010", "10101", "01010"};
     Ligne jeu(grille);
 
     EXPECT_EQ(jeu.grille.size(), 4) << "La grille doit contenir 4 lignes.";
@@ -123,7 +121,7 @@ TEST(LigneTest, ConstructionLigne) {
 
 // Test de la fonction `Ligne::CompteCell`
 TEST(LigneTest, CompteCell) {
-    std::vector<std::string> grille = {"101", "010", "101"};
+    vector<string> grille = {"101", "010", "101"};
     Ligne jeu(grille);
 
     int voisins = jeu.CompteCell(1, 1, grille);
@@ -132,7 +130,7 @@ TEST(LigneTest, CompteCell) {
 
 // Test de la fonction `Ligne::Generation`
 TEST(LigneTest, Generation) {
-    std::vector<std::string> grille = {"000", "111", "000"};
+    vector<string> grille = {"000", "111", "000"};
     Ligne jeu(grille);
 
     jeu.change_etat();
@@ -141,8 +139,8 @@ TEST(LigneTest, Generation) {
 
 // Test de la conversion de grille pour SFML
 TEST(ConversionGrilleTest, ConvertirGrille) {
-    std::vector<std::string> grille = {"101", "010", "101"};
-    std::vector<std::vector<int>> grid = convertirGrille(grille);
+    vector<string> grille = {"101", "010", "101"};
+    vector<vector<int>> grid = convertirGrille(grille);
 
     EXPECT_EQ(grid.size(), 3) << "La grille convertie doit avoir 3 lignes.";
     EXPECT_EQ(grid[0][1], 0) << "La deuxième cellule de la première ligne doit être 0.";
@@ -154,26 +152,26 @@ TEST(ConversionGrilleTest, ConvertirGrille) {
 
 int main(int argc, char** argv) {
     ////////////////////////////////Lancement des tests unitaires///////////////////////////////////////////////////////
-    std::cout << "Initialisation des tests unitaires...\n"<<std::endl;
+    cout<<"Initialisation des tests unitaires...\n"<<endl;
     ::testing::InitGoogleTest(&argc, argv);
 
-    if (argc > 1 && std::string(argv[1]) == "--run-sfml") {
-        std::cout << "Lancement de la fenêtre SFML...\n"<<std::endl;
+    if (argc > 1 && string(argv[1]) == "--run-sfml") {
+        cout<<"Lancement de la fenêtre SFML...\n"<<endl;
     }
 
-    std::cout << "Exécution des tests unitaires...\n"<<std::endl;
+    cout<<"Exécution des tests unitaires...\n"<<endl;
     int testResult = RUN_ALL_TESTS();
 
-    std::cout << "Tous les tests unitaires sont terminés.\n"<<std::endl;
-    std::cout << "Résultat des tests : " << (testResult == 0 ? "Tous validés !" : "Échec.") << "\n"<<std::endl;
+    cout<<"Tous les tests unitaires sont terminés.\n"<<endl;
+    cout<<"Résultat des tests : " << (testResult == 0 ? "Tous validés !" : "Échec.") << "\n"<<endl;
     ////////////////////////////////Lancement du programme du jeu de la vie/////////////////////////////////////////////
-    std::cout << "Combien d'itérations voulez-vous réaliser ? \t" << std::endl;
+    cout<<"Combien d'itérations voulez-vous réaliser ? \t" <<endl;
     int iteration = 5;
-    std::cout << iteration << std::endl;
+    cout<<iteration<<endl;
 
-    std::cout << "Comment voulez-vous obtenir le résultat ? \t 1. mode console \t 2. mode graphique" << std::endl;
+    cout<<"Comment voulez-vous obtenir le résultat ? \t 1. mode console \t 2. mode graphique"<<endl;
     int mode = 2;
-    std::cout << mode << std::endl;
+    cout<<mode<<endl;
 
     while (iteration > 0) {
         if (mode == 1) {
@@ -181,7 +179,7 @@ int main(int argc, char** argv) {
             vector<string> liste = fichier.vecteur(txt);
 
             for (const auto& ligne : liste) {
-                std::cout << ligne << std::endl;
+                cout<<ligne<<endl;
             }
 
             liste.erase(liste.begin());
@@ -189,7 +187,7 @@ int main(int argc, char** argv) {
             Ligne jeu(liste);
 
             for (int i = 0; i < 5; ++i) {
-                std::cout << "Iteration : " << i + 1 << "\n";
+                cout<<"Iteration : "<< i + 1 << "\n"<<endl;
                 jeu.change_etat();
                 jeu.AfficheGrille();
             }
@@ -201,7 +199,7 @@ int main(int argc, char** argv) {
             vector<string> liste = fichier.vecteur(txt);
 
             for (const auto& ligne : liste) {
-                std::cout << ligne << std::endl;
+                cout<<ligne<<endl;
             }
 
             liste.erase(liste.begin());
@@ -210,7 +208,7 @@ int main(int argc, char** argv) {
 
             for (int i = 0; i < 5; ++i) {
                 jeu.change_etat();
-                std::vector<std::vector<int>> grid = convertirGrille(jeu.grille);
+                vector<vector<int>> grid = convertirGrille(jeu.grille);
                 afficherAvecSFML(grid, cellSize); // Afficher la grille avec SFML
             }
             return 0;
