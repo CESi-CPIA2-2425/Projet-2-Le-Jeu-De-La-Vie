@@ -13,6 +13,7 @@
 #include <ctime>
 #include <stdio.h>
 #include <string>
+#include <filesystem>
 //Inclusions des classes
 #include "Fichier.h"
 #include "Ligne.h"
@@ -145,10 +146,10 @@ TEST(ConversionGrilleTest, ConvertirGrille) {
     EXPECT_EQ(grid.size(), 3) << "La grille convertie doit avoir 3 lignes.";
     EXPECT_EQ(grid[0][1], 0) << "La deuxième cellule de la première ligne doit être 0.";
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 /////////////////////////////////////Main (appel de méthodes)///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
-
 
 int main(int argc, char** argv) {
     ////////////////////////////////Lancement des tests unitaires///////////////////////////////////////////////////////
@@ -166,30 +167,32 @@ int main(int argc, char** argv) {
     cout<<"Résultat des tests : " << (testResult == 0 ? "Tous validés !" : "Échec.") << "\n"<<endl;
     ////////////////////////////////Lancement du programme du jeu de la vie/////////////////////////////////////////////
     cout<<"Combien d'itérations voulez-vous réaliser ? \t" <<endl;
-    int iteration = 0;  //Valeur par défaut
-    cin>>iteration;
+    int iteration = 5;
+    cout<<iteration<<endl;
 
     cout<<"Comment voulez-vous obtenir le résultat ? \t 1. mode console \t 2. mode graphique"<<endl;
-    int mode = 0;  //Valeur par défaut
-    cin>>mode;
+    int mode = 1;
+    cout<<mode<<endl;
 
     while (iteration > 0) {
         if (mode == 1) {
+            string fichierEntree = "grille.txt";
             string txt = fichier.lecture();
+            string dossierSortie = fichierEntree + "_out";
+            filesystem::create_directory(dossierSortie);
+            //string txt = fichier.lecture();
             vector<string> liste = fichier.vecteur(txt);
-
             for (const auto& ligne : liste) {
                 cout<<ligne<<endl;
             }
-
             liste.erase(liste.begin());
-
             Ligne jeu(liste);
-
             for (int i = 0; i < 5; ++i) {
                 cout<<"Iteration : "<< i + 1 << "\n"<<endl;
                 jeu.change_etat();
                 jeu.AfficheGrille();
+                string fichierIteration = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
+                fichier.ecriture(fichierIteration, jeu.grille);
             }
         }
 

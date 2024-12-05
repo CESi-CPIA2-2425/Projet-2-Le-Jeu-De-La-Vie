@@ -30,6 +30,7 @@ public:
 
     string lecture();
     vector<string> vecteur(const string& txt);
+    void ecriture(const string& nomFichier, const vector<string>& grille);
 
 };
 #endif //FICHIER_H

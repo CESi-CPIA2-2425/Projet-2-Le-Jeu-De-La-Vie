@@ -48,6 +48,22 @@ vector<string> Fichier::vecteur(const string& txt) {
     return liste;
 }
 
+void Fichier::ecriture(const string& nomFichier, const vector<string>& grille) {
+    ofstream fichier(nomFichier);  // Ouvre le fichier en mode écriture
+    if (!fichier.is_open()) {
+        cerr << "Erreur : Impossible d'ouvrir le fichier " << nomFichier << endl;
+        return;
+    }
+
+    // Écrire la grille dans le fichier
+    for (const auto& ligne : grille) {
+        fichier << ligne << '\n';
+    }
+
+    fichier.close();
+    cout << "État écrit dans : " << nomFichier << endl;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
