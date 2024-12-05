@@ -18,6 +18,7 @@ using namespace std;
 
 Ligne::Ligne(vector<string> grille): grille(grille), cologne(grille[0].size()), ligne(grille.size()), x(0), y(0), gridWidth(0), gridHeight(0) {} // constructeur (remplace celui par défaut
 
+//Changement de l'éta '0' ou '1' en fonction des 8 cases environnantes
 void Ligne::change_etat() {
     vector<string> nvlle = grille;
 
@@ -34,6 +35,7 @@ void Ligne::change_etat() {
     grille = nvlle;
 }
 
+//Compte le nombre de cellules qui composent la grille
 int Ligne::CompteCell(int x,int y,vector<string> grille) {
     int compteur = 0;
     for(int i=-1; i<=1; i++) {
@@ -49,6 +51,7 @@ int Ligne::CompteCell(int x,int y,vector<string> grille) {
     return compteur;
 }
 
+//Affichage de la Grille de '0' et '1' dans la console de l'ordinateur
 void Ligne::AfficheGrille() {
     for (const auto& l : grille) {
         cout << l << '\n';

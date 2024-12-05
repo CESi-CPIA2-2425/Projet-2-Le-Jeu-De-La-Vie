@@ -19,6 +19,7 @@ using namespace std;
 //////////////////////////////////////////Méthodes de la classe Fichier/////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////.
 
+//Ouverture et recupération des données présentes dans le fichier texte (sous forme de string)
 string Fichier::lecture() {
     string full;
     string contenu;
@@ -36,6 +37,7 @@ string Fichier::lecture() {
     return full;
 }
 
+//transformation de la string du fichier en une serie de vecteurs (matrice en 2D)
 vector<string> Fichier::vecteur(const string& txt) {
     vector<string> liste;
     stringstream ss(txt);
