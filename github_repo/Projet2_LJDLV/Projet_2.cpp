@@ -166,12 +166,12 @@ int main(int argc, char** argv) {
     cout<<"Résultat des tests : " << (testResult == 0 ? "Tous validés !" : "Échec.") << "\n"<<endl;
     ////////////////////////////////Lancement du programme du jeu de la vie/////////////////////////////////////////////
     cout<<"Combien d'itérations voulez-vous réaliser ? \t" <<endl;
-    int iteration = 5;
-    cout<<iteration<<endl;
+    int iteration = 0;  //Valeur par défaut
+    cin>>iteration;
 
     cout<<"Comment voulez-vous obtenir le résultat ? \t 1. mode console \t 2. mode graphique"<<endl;
-    int mode = 2;
-    cout<<mode<<endl;
+    int mode = 0;  //Valeur par défaut
+    cin>>mode;
 
     while (iteration > 0) {
         if (mode == 1) {
