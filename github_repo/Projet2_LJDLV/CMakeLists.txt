@@ -17,16 +17,7 @@ link_directories(${SFML_LIBRARY_DIR})
 file(GLOB_RECURSE SRCS "Projet_2.cpp")
 
 # Ajouter l'exécutable principal
-add_executable(SFMLTest ${SRCS} Projet_2.cpp
-        Grille.cpp
-        Grille.h
-        Ligne.cpp
-        Ligne.h
-        Fichier.cpp
-        Fichier.h)
-
-
-
+add_executable(SFMLTest ${SRCS} Projet_2.cpp)
 
 # Chemin vers le répertoire Google Test
 set(GTEST_DIR "C:/Users/thais/Documents Local/CPI A2/Projet 2/Livrable/Projet-2/cmake-build-debug/googletest/googletest-main")
@@ -40,12 +31,9 @@ include_directories(${GTEST_DIR}/googlemock/include)
 
 # Ajouter un exécutable pour les tests unitaires
 add_executable(UnitTests Projet_2.cpp
-        Grille.cpp
-        Grille.h
-        Ligne.cpp
-        Ligne.h
         Fichier.cpp
-        Fichier.h)
+        Ligne.cpp
+        Grille.cpp)
 
 # Lier les bibliothèques SFML
 target_link_libraries(SFMLTest sfml-graphics sfml-window sfml-audio sfml-network sfml-system)
